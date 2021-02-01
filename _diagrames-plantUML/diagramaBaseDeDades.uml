@@ -1,0 +1,41 @@
+@startuml
+
+Factura "1..*" -- "1" Client
+
+Factura "1" -- "1..*" LiniesFactures
+
+LiniesFactures "0..*" -- "1" Article
+
+class Factura {
+   id : BigInteger
+   data: String
+   pagada: Boolean
+   clientId: BigInteger
+   baseImposable: Float
+   iva: Float
+}
+
+class Client {
+   id : BigInteger
+   nif: String
+   nom: String
+   adreca: String
+   poblacio: String
+}
+
+class LiniesFactures {
+   id : BigInteger
+   facturaId: BigInteger
+   idArticle: String
+   article: String
+   unitats: Integer
+   preu: Float
+}
+
+class Article {
+   id : BigInteger
+   article: BigInteger
+   preu: String
+}
+
+@enduml
