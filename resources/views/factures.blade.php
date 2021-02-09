@@ -2,6 +2,7 @@
 <html lang="ca">
 <head>
     <meta charset="UTF-8">
+	<meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Factures</title>
     <link rel="stylesheet" type="text/css" href="css/factures.css">
 	<link rel="icon" href="favicon.ico" type="image/x-icon">

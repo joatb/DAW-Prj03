@@ -13,6 +13,10 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // \App\Models\User::factory(10)->create();
+         //\App\Models\FacturaSeeder::factory(10)->create();
+         $this->call(ClientSeeder::class);
+         $this->call(FacturaSeeder::class);
+         $this->call(ArticleSeeder::class);
+         $this->call(LiniaFacturaSeeder::class);
     }
 }

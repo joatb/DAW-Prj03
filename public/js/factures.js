@@ -21,7 +21,7 @@ var arrel;
 //	La pàgina per editar la factura s'ha d'obrir en la mateixa finestra
 function editar(ev) {
 	var numFactura = ev.target.parentElement.parentElement.firstChild.innerHTML;
-	var URL = `${arrel}factura.html?numFactura=${numFactura}`;
+	var URL = `${arrel}factura?numFactura=${numFactura}`;
 	window.location.replace(encodeURI(URL));
 }
 
@@ -40,19 +40,23 @@ function esborrar(ev) {
 		function errorListener() {
 			alert("Error al fer petició al servidor");
 		}
-		var numFactura = ev.target.parentElement.parentElement.firstChild.innerHTML;
-		var peticio = new XMLHttpRequest();
-		peticio.addEventListener("load", requestListener);
-		peticio.addEventListener("error", errorListener);
+		var factura_id = ev.target.parentElement.parentElement.firstChild.innerHTML;
 
-		var params = JSON.stringify({
-			accio: "eliminarFactura",
-			numFactura: numFactura
+		let token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+		fetch(arrel + 'deleteFactura', {
+			method: 'post',
+			headers: {
+				'Content-Type': 'application/json',
+				"X-CSRF-TOKEN": token
+				// 'Content-Type': 'application/x-www-form-urlencoded',
+			},
+			body: JSON.stringify({'factura_id': factura_id}) // body data type must match "Content-Type" header
+		})
+		.then(response => response.json())
+		.then(response => {
+			console.log(response);
 		});
-
-		peticio.open("POST", arrel, true);
-		peticio.setRequestHeader("Content-Type", "application/json");
-		peticio.send(params);
 
 	}
 }
@@ -89,20 +93,23 @@ function omplirTaula(factures) {
 		style: 'currency',
 		currency: 'EUR'
 	};
+
 	for (var factura of factures) {
 		var fila = [];
-		fila.push(factura.dades.numFactura);
-		fila.push(factura.dades.dataFactura);
-		fila.push(factura.dades.pagada);
-		fila.push(factura.dades.nom);
+		fila.push(factura.id);
+		fila.push(factura.data);
+		fila.push((factura.pagada)===1? 'Si' : 'No');
+		fila.push(factura.client.nom);
+
 		var subtotal = 0;
-		for (var article of factura.articles) {
-			subtotal += article.preu * article.unitats;
+		for (var linia of Object.entries(factura.linies)) {
+			console.log(linia[1].unitats);
+			subtotal += linia[1].article.preu * linia[1].unitats;
 		}
-		var dte = parseInt(factura.dades.dte);
+		var dte = parseInt(factura.descompte);
 		var importDte = (subtotal * dte) / 100;
 		var importBaseImp = subtotal - importDte;
-		var iva = parseInt(factura.dades.iva);
+		var iva = parseInt(factura.iva);
 		var importIva = (importBaseImp * iva) / 100;
 		var totalFactura = (subtotal + importIva) - importDte;
 
@@ -134,7 +141,7 @@ function omplirFila(fila) {
 		var img = document.createElement("img");
 		img.setAttribute("class", accio);
 		img.setAttribute("style", `width:1rem`);
-		img.setAttribute("src", `/img/${accio}.svg`);
+		img.setAttribute("src", `img/${accio}.svg`);
 		tdAccio.appendChild(img);
 	}
 
@@ -149,34 +156,24 @@ function omplirFila(fila) {
 }
 
 function actualitzarTaula() {
-	//fetch('')
-	/*
+	fetch(arrel + 'getFactures', {
+		method: 'get'
+	})
+	.then(response => response.json())
+	.then(factures => {
+		omplirTaula(factures);
+	});
+
 	const tbody = document.getElementsByTagName("tbody")[0];
 	while (tbody.firstChild) {
 		tbody.removeChild(tbody.firstChild);
-	}
-	// Gestor de la resposta
-	function requestListener() {
-		var dades = JSON.parse(this.responseText);
-		var factures = dades.success.factures;
-		omplirTaula(factures);
 	}
 
 	// Gestor d'errors
 	function errorListener() {
 		alert("Error al fer petició al servidor");
 	}
-	var peticio = new XMLHttpRequest();
-	peticio.addEventListener("load", requestListener);
-	peticio.addEventListener("error", errorListener);
 
-	var params = JSON.stringify({
-		accio: "getFactures"
-	});
-	peticio.open("POST", arrel, true);
-	peticio.setRequestHeader("Content-Type", "application/json");
-	peticio.send(params);
-	*/
 }
 
 /***********************************************

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\FacturaController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,6 +14,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [FacturaController::class, 'showFactures']);
+
+Route::get('/factura', [FacturaController::class, 'showFactura']);
+
+Route::get('/getFactures', [FacturaController::class, 'getFactures']);
+
+Route::post('/deleteFactura', [FacturaController::class, 'deleteFactura']);
+
