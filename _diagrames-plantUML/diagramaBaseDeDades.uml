@@ -1,41 +1,39 @@
 @startuml
 
-Factura "1..*" -- "1" Client
+Factures "1..*" -- "1" Clients
 
-Factura "1" -- "1..*" LiniesFactures
+Factures "1" -- "1..*" LiniesFactures
 
-LiniesFactures "0..*" -- "1" Article
+LiniesFactures "0..*" -- "1" Articles
 
-class Factura {
-   id : BigInteger
-   data: String
-   pagada: Boolean
-   clientId: BigInteger
-   baseImposable: Float
-   iva: Float
+class Factures {
+   id
+   data
+   pagada
+   clientId
+   baseImposable
+   iva
 }
 
-class Client {
-   id : BigInteger
-   nif: String
-   nom: String
-   adreca: String
-   poblacio: String
+class Clients {
+   id
+   nif
+   nom
+   adreca
+   poblacio
 }
 
 class LiniesFactures {
-   id : BigInteger
-   facturaId: BigInteger
-   idArticle: String
-   article: String
-   unitats: Integer
-   preu: Float
+   id
+   facturaId
+   articleId
+   unitats
 }
 
-class Article {
-   id : BigInteger
-   article: BigInteger
-   preu: String
+class Articles {
+   id
+   article
+   preu
 }
 
 @enduml

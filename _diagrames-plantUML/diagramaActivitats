@@ -1,0 +1,33 @@
+@startuml
+
+start
+repeat
+if (Existeixen factures?) then (si)
+    if (Modificar factura?) then (si)
+        : Redirigir formulari factura;
+        if (Guardar?) then (si)
+            : Guardar;
+            : Redirigir factures;
+        else (no)
+            : Cancelar;
+        endif
+    else (no)
+        if (Eliminar factura?) then (si)
+            :Eliminar;
+        else (no)
+        endif
+    endif
+else (no)
+    if (Afegir factura?) then (si)
+        : Redirigir formulari factura;
+        if (Guardar?) then (si)
+            : Guardar;
+            : Redirigir factures;
+        else (no)
+            : Cancelar;
+        endif
+    else (no)
+    endif
+endif
+
+@enduml
