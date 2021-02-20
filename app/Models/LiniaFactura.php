@@ -17,9 +17,14 @@ class LiniaFactura extends Model
      * @var array
      */
     protected $fillable = [
-        'article',
+        'factura_id',
+        'article_id',
         'unitats',
     ];
+
+    public function factura(){
+        return $this->belongsTo(Factura::class);
+    }
 
     public function article(){
         return $this->belongsTo(Article::class);

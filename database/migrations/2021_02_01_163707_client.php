@@ -20,6 +20,7 @@ class Client extends Migration
             $table->string('nom');
             $table->string('adreca');
             $table->string('poblacio');
+            $table->timestamps();
         });
     }
 

@@ -20,6 +20,7 @@ class Factura extends Migration
             $table->unsignedBigInteger('client_id');
             $table->unsignedInteger('descompte');
             $table->unsignedInteger('iva');
+            $table->timestamps();
 
             $table->foreign('client_id')->references('id')->on('clients');
         });

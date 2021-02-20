@@ -22,5 +22,12 @@ class ClientSeeder extends Seeder
             'adreca' => Str::random(10),
             'poblacio' => Str::random(10),
         ]);
+
+        DB::table('clients')->insert([
+            'nif' => Str::random(7),
+            'nom' => Str::random(10),
+            'adreca' => Str::random(10),
+            'poblacio' => Str::random(10),
+        ]);
     }
 }

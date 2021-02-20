@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\ClientController;
+use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\FacturaController;
 use Illuminate\Support\Facades\Route;
 
@@ -14,11 +16,21 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+/** Factura */
 Route::get('/', [FacturaController::class, 'showFactures']);
 
 Route::get('/factura', [FacturaController::class, 'showFactura']);
 
 Route::get('/getFactures', [FacturaController::class, 'getFactures']);
 
+Route::post('/getFactura', [FacturaController::class, 'getFactura']);
+
+Route::post('/upsertFactura', [FacturaController::class, 'upsertFactura']);
+
 Route::post('/deleteFactura', [FacturaController::class, 'deleteFactura']);
 
+/** Client */
+Route::post('/getClient', [ClientController::class, 'getClient']);
+
+/** Article */
+Route::post('/getArticle', [ArticleController::class, 'getArticle']);

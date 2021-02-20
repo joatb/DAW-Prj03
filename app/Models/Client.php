@@ -22,4 +22,9 @@ class Client extends Model
         'adreca',
         'poblacio'
     ];
+
+    public function factures()
+    {
+        return $this->hasMany(Factura::class);
+    }
 }

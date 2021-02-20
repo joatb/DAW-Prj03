@@ -3,6 +3,9 @@
 // Conté l'arrel del domini per fer les peticions al servidor (http://localhost:8080/...)
 var arrel;
 
+/** Laravel CSRF token */
+let token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
 /*************************************************
  * EN AQUEST APARTAT POTS AFEGIR O MODIFICAR CODI *
  *************************************************/
@@ -13,6 +16,27 @@ var arrel;
 // ALUMNE: José Alberto Torrents Batista
 ///////////////////////////////////////////////////////////
 
+// Gestor d'errors
+function gestionarErrors(response) {
+	if (!response.ok) {
+		throw Error(response.statusText);
+	}
+	return response.json();
+}
+
+/**
+ * Format data (Y-m-d -> d-m-Y)
+ * @param data 
+ */
+function formatarData(data){
+	data = data.split('-');
+	let d = new Date(data[0], data[1], data[2]);
+	let cero = (num) => (num < 10) ? '0' + num : num;
+	let novaData = [cero(d.getDate()), cero(d.getMonth()), d.getFullYear()];
+	
+	return novaData.join('-');
+}
+
 /********** ESDEVENIMENTS DELS BOTONS (ICONES) DE LES ACCIONS EN CADA FILA **********/
 
 // Botó Editar factura (icona):
@@ -21,7 +45,7 @@ var arrel;
 //	La pàgina per editar la factura s'ha d'obrir en la mateixa finestra
 function editar(ev) {
 	var numFactura = ev.target.parentElement.parentElement.firstChild.innerHTML;
-	var URL = `${arrel}factura?numFactura=${numFactura}`;
+	var URL = `${arrel}factura?facturaId=${numFactura}`;
 	window.location.replace(encodeURI(URL));
 }
 
@@ -31,31 +55,24 @@ function editar(ev) {
 //	Ha d'actualitzar la llista de factures
 function esborrar(ev) {
 	if (confirm("Vols esborrar la factura?")) {
-		// Gestor de la resposta
-		function requestListener() {
-			actualitzarTaula();
-		}
-
-		// Gestor d'errors
-		function errorListener() {
-			alert("Error al fer petició al servidor");
-		}
-		var factura_id = ev.target.parentElement.parentElement.firstChild.innerHTML;
-
-		let token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+		var facturaId = ev.target.parentElement.parentElement.firstChild.innerHTML;
 
 		fetch(arrel + 'deleteFactura', {
 			method: 'post',
 			headers: {
 				'Content-Type': 'application/json',
 				"X-CSRF-TOKEN": token
-				// 'Content-Type': 'application/x-www-form-urlencoded',
 			},
-			body: JSON.stringify({'factura_id': factura_id}) // body data type must match "Content-Type" header
+			body: JSON.stringify({'facturaId': facturaId})
 		})
-		.then(response => response.json())
+		.then(response => gestionarErrors(response))
 		.then(response => {
-			console.log(response);
+			actualitzarTaula();
+			alert(response);
+		})
+		.catch((e)=>{
+			actualitzarTaula();
+			alert(e);
 		});
 
 	}
@@ -97,24 +114,23 @@ function omplirTaula(factures) {
 	for (var factura of factures) {
 		var fila = [];
 		fila.push(factura.id);
-		fila.push(factura.data);
-		fila.push((factura.pagada)===1? 'Si' : 'No');
+		fila.push(formatarData(factura.data));
+		fila.push((factura.pagada === 1) ? 'Si' : 'No');
 		fila.push(factura.client.nom);
 
-		var subtotal = 0;
+		var importBaseImp = 0;
 		for (var linia of Object.entries(factura.linies)) {
 			console.log(linia[1].unitats);
-			subtotal += linia[1].article.preu * linia[1].unitats;
+			importBaseImp += linia[1].article.preu * linia[1].unitats;
 		}
-		var dte = parseInt(factura.descompte);
-		var importDte = (subtotal * dte) / 100;
-		var importBaseImp = subtotal - importDte;
-		var iva = parseInt(factura.iva);
-		var importIva = (importBaseImp * iva) / 100;
-		var totalFactura = (subtotal + importIva) - importDte;
+		var dte = parseInt(factura.descompte); // % decompte
+		var importDte = (importBaseImp * dte) / 100; // import descompte
+		var importBaseImp = importBaseImp - importDte;
+		var importIva = (parseInt(factura.iva) / 100) * importBaseImp;
+		var totalFactura = importBaseImp + importIva;
 
 		fila.push(importBaseImp.toLocaleString('es-ES', estil));
-		fila.push(iva);
+		fila.push(importIva.toLocaleString('es-ES', estil));
 		fila.push(totalFactura.toLocaleString('es-ES', estil));
 
 		omplirFila(fila);
@@ -159,19 +175,18 @@ function actualitzarTaula() {
 	fetch(arrel + 'getFactures', {
 		method: 'get'
 	})
-	.then(response => response.json())
+	.then(response => gestionarErrors(response))
 	.then(factures => {
+		console.log(factures);
 		omplirTaula(factures);
+	})
+	.catch((e)=>{
+		alert(e);
 	});
 
 	const tbody = document.getElementsByTagName("tbody")[0];
 	while (tbody.firstChild) {
 		tbody.removeChild(tbody.firstChild);
-	}
-
-	// Gestor d'errors
-	function errorListener() {
-		alert("Error al fer petició al servidor");
 	}
 
 }

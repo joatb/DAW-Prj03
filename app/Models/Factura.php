@@ -24,8 +24,8 @@ class Factura extends Model
     protected $fillable = [
         'data',
         'pagada',
-        'clientId',
-        'baseImposable',
+        'client_id',
+        'descompte',
         'iva'
     ];
 

@@ -27,5 +27,11 @@ class LiniaFacturaSeeder extends Seeder
             'article_id' => 1,
             'unitats' => rand(0, 50),
         ]);
+
+        DB::table('liniesFactures')->insert([
+            'factura_id' => 2,
+            'article_id' => 1,
+            'unitats' => rand(0, 50),
+        ]);
     }
 }

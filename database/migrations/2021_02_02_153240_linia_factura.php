@@ -18,8 +18,9 @@ class LiniaFactura extends Migration
             $table->unsignedBigInteger('factura_id');
             $table->unsignedBigInteger('article_id');
             $table->unsignedInteger('unitats');
+            $table->timestamps();
 
-            $table->foreign('factura_id')->references('id')->on('factures');
+            $table->foreign('factura_id')->references('id')->on('factures')->onDelete("cascade");
             $table->foreign('article_id')->references('id')->on('articles');
         });
     }

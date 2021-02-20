@@ -2,6 +2,7 @@
 <html lang="ca">
 <head>
     <meta charset="UTF-8">
+	<meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Factura</title>
     <link rel="stylesheet" type="text/css" href="css/factura.css">
 	<script src="js/jQuery341.js"></script>
@@ -19,7 +20,7 @@
 		<div class="b bold big" style="width:8rem;max-width:8rem"><span class="center">Data factura</span></div><div class="b tbr big" style="width:10rem;max-width:10rem"><input type="date" id="data" style="width:10rem" /></div><div class="b tbr bold big" style="width:8rem;max-width:8rem"><span class="center">Núm. factura</span></div><div class="b tbr big" style="width:5rem;max-width:5rem"><input type="number" id="numero" style="width:5rem" disabled /></div><input type="checkbox" id="pagada" style="width:1rem;margin-left:2rem" class="nonprintable"/><label for="pagada" style="text-align:left" class="nonprintable">Pagada</label><br>
 		<br>
 		<div class="b bold" style="width:4rem;max-width:4rem">NIF</div><div id="nif" class="b tbr" style="width:9rem;max-width:9rem"></div><div class="b tbr bold" style="width:4rem">Nom</div><div id="nom" class="b tbr" style="width:25rem;max-width:25rem"></div><br>
-		<div class="b blr bold" style="width:4rem;max-width:4rem">Adreça</div><div id="adressa" class="b br" style="width:23rem;max-width:23rem"></div><div class="b br bold" style="width:5rem;max-width:5rem">Població</div><div id="poblacio" class="b br" style="width:10rem;max-width:10rem"></div>
+		<div class="b blr bold" style="width:4rem;max-width:4rem">Adreça</div><div id="adreca" class="b br" style="width:23rem;max-width:23rem"></div><div class="b br bold" style="width:5rem;max-width:5rem">Població</div><div id="poblacio" class="b br" style="width:10rem;max-width:10rem"></div>
 	</div>
 
 	<div>
@@ -39,7 +40,7 @@
 			<tbody>
 				<tr class="thf">
 					<th colspan="4">Total articles</th>
-					<th style="text-align:right">0.00</th>
+					<th id="totalArticles" style="text-align:right">0.00</th>
 					<th class="nonprintable"><img src="img/add.svg" width="32px"></th>
 				</tr>
 			</tbody>

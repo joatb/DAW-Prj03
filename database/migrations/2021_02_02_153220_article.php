@@ -17,6 +17,7 @@ class Article extends Migration
             $table->id();
             $table->string('article');
             $table->float('preu');
+            $table->timestamps();
         });
     }
 
