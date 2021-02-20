@@ -1,0 +1,39 @@
+@startuml
+
+Factures "1..*" -- "1" Clients
+
+Factures "1" -- "1..*" LiniesFactures
+
+LiniesFactures "0..*" -- "1" Articles
+
+class Factures {
+   id
+   data
+   pagada
+   clientId
+   baseImposable
+   iva
+}
+
+class Clients {
+   id
+   nif
+   nom
+   adreca
+   poblacio
+}
+
+class LiniesFactures {
+   id
+   facturaId
+   articleId
+   unitats
+}
+
+class Articles {
+   id
+   article
+   preu
+}
+
+@enduml

@@ -1,0 +1,21 @@
+@startuml
+left to right direction
+skinparam packageStyle rectangle
+actor user
+rectangle facturació {
+   user -- (crear factura)
+   user -- (consultar factures)
+   user -- (modificar factura)
+
+  (crear factura) .> (línies factures): include
+  (crear factura) .> (crear/assignar client): include
+
+  (modificar factura) .> (modificar línies factures): include
+  (modificar factura) .> (modificar client): include
+
+  (imprimir) .> (crear factura) : extends
+
+  (imprimir ) .> (modificar factura): extends
+
+}
+@enduml

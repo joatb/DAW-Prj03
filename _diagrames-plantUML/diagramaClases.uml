@@ -1,0 +1,63 @@
+@startuml
+
+Factura "1..*" -- "1" Client
+
+Factura "1" -- "1..*" LiniaFactura
+
+LiniaFactura "0..*" -- "1" Article
+
+FacturaController <.. Factura
+
+ArticleController <.. Article
+
+ClientController <.. Client
+
+class Factura {
+   id : BigInteger
+   data: String
+   pagada: Boolean
+   client: Client
+   linies:Array<LiniaFactura>
+   descompte: Integer
+   iva: Integer
+}
+
+class Client {
+   id : BigInteger
+   nif: String
+   nom: String
+   adreca: String
+   poblacio: String
+}
+
+class LiniaFactura {
+   id: BigInteger
+   factura_id: BigInteger
+   article_id: BigInteger
+   unitats: Integer
+}
+
+class Article {
+   id : BigInteger
+   article: BigInteger
+   preu: String
+}
+
+class FacturaController {
+   +showFactures()
+   +showFactura()
+   +getFactura()
+   +getFactures()
+   +upsertFactura()
+   +deleteFactura() 
+}
+
+class ClientController {
+   +getClient()
+}
+
+class ArticleController {
+   +getArticle()
+}
+
+@enduml

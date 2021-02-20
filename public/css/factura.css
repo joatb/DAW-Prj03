@@ -1,0 +1,184 @@
+body * {
+	font-size:14px;
+}
+
+h2 {
+	font-size:1.4rem;
+	text-align:center;
+}
+
+h5 {
+	font-size:1.2rem;
+	margin-bottom:0.5rem;
+}
+
+div {
+	margin-bottom:1rem;
+}
+
+label {
+	width:7rem;
+	display:inline-block;
+	text-align:right;
+	font-weight:bold;
+}
+
+input {
+	width:6rem;
+	margin:.2rem;
+}
+
+p {
+	margin: 2rem 0 .5rem 0;
+}
+
+table {
+	border:none;
+	border-collapse:collapse;
+}
+
+thead {
+	background-color:lightgrey;
+}
+
+th {
+	vertical-align:middle;
+	width:5rem;
+	max-width:5rem;
+	border:.1rem solid black;
+}
+
+td {
+	vertical-align:middle;
+	width:5rem;
+	max-width:5rem;
+	border:.1rem solid black;
+	text-align:right;
+	white-space:nowrap;
+	overflow:hidden;
+	text-overflow:ellipsis;
+}
+
+td:nth-child(1) {
+	text-align:left;
+}
+
+td:nth-child(2) {
+	text-align:left;
+}
+
+.selected {
+	background-color:#dfefff
+}
+
+.tda {
+	width:24rem;
+	max-width:24rem;
+}
+
+.tha {
+	width:24rem;
+	max-width:24rem;
+}
+
+.thf {
+	background-color:lightgrey;
+}
+
+.b {
+	margin:0;
+	padding:0 0.2rem;
+	border:1px solid black;
+	display:inline-block;
+	height:20px;
+	white-space:nowrap;
+	overflow:hidden;
+	vertical-align:top;
+}
+
+.tbr {
+	border-left:none;
+}
+
+.blr {
+	border-top:none;
+}
+
+.br {
+	border-top:none;
+	border-left:none;
+}
+
+.bold {
+	font-weight:bold;
+}
+
+.big {
+	height:1.8rem;
+	vertical-align:middle;
+}
+
+.big * {
+	position:relative;
+	top:50%;
+	left:50%;
+	vertical-align:middle;
+	transform:translate(-50%,-50%);
+}
+
+.center {
+	display:block;
+	position:relative;
+	top:50%;
+	left:50%;
+	vertical-align:middle;
+	transform:translate(-50%,-50%);
+}
+
+input[type="date"] {
+	border:none;
+	margin:0;
+}
+
+input[type="number"] {
+	border:none;
+	margin:0;
+	text-align:right;
+}
+
+img {
+	padding: 0 .1rem
+}
+
+.printable {
+	display:none;
+}
+
+.fpagada {
+	display:none;
+}
+
+
+@media print{
+	.fpagada {
+		display:block;
+		position:fixed;
+		font-size:8rem;
+		border:1rem solid black;
+		padding:1rem;
+		top:50%;
+		left:50%;
+		transform:translate(-50%, -50%) rotate(-50deg);
+		opacity:.1;
+	}
+
+	.printable {
+		display:block;
+	}
+
+	.nonprintable {
+		display:none;
+	}
+}
+
+

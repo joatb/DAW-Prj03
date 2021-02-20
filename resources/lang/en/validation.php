@@ -147,6 +147,17 @@ return [
     |
     */
 
-    'attributes' => [],
+    'attributes' => [
+        'id' => 'Id Factura',
+        'data' => 'Data',
+        'client.nom' => 'Nom Client',
+        'client.adreca' => 'Adreça',
+        'client.poblacio' => 'Població',
+        'linies' => 'Línies',
+        'linies.*.unitats' => 'Unitats',
+        'linies.*.article.article' => 'Nom Article',
+        'linies.*.article.id' => 'Codi Article',
+        'linies.*.article.preu' => 'Preu Article'
+    ],
 
 ];
